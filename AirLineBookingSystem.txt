@@ -1,0 +1,182 @@
+/* Airline Booking System
+
+A simple Java-based airline booking system for managing flight reservations and passenger information. */
+
+/*  The program starts with importing necessary Java packages and defining two classes: Flight and Passenger.
+Flight class represents flight details such as flight number, origin, destination, and available seats. */
+
+package com.oibsip;
+
+public class Flight {
+
+private int flightNumber;
+	private String origin;
+	private String destination;
+	private int  availableSeats;
+	
+public Flight(int flightNumber, String origin, String destination, int availableSeats)
+{
+	this.flightNumber=flightNumber;
+	this.origin=origin;
+	this.destination=destination;
+	this.availableSeats=availableSeats;
+}
+
+public int getFlightNumber()
+{
+	return flightNumber;
+}
+public String getOrigin()
+{
+	return origin;
+}
+public String getDestination()
+{
+	return destination;
+}
+public int getAvaialableSeats()
+{
+	return availableSeats;
+}
+public void bookSeat()
+{
+	if(availableSeats>0)
+	{
+		availableSeats--;
+	}
+	else
+	{
+		System.out.println("No available Seats on this flight. ");
+	}
+	
+}
+}
+
+/*Passenger class represents passenger information including name and passport number.*/
+
+ package com.oibsip;
+
+public class Passenger 
+{
+	private String name;
+	private String passportNumber;
+	
+	public Passenger(String name,String passportNumber)
+	{
+		this.name=name;
+		this.passportNumber=passportNumber;
+		
+	}
+	public String getName()
+	{
+	return name;
+	}
+	public String getPassportNumber()
+	{
+		return passportNumber;
+	}
+
+}
+
+/* Main Class - AirlineBookingSystem:
+
+This is the main class of the program where the application starts execution. */
+
+package com.oibsip;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AirlineBookingSystem {
+
+		private static List<Flight> flights=new ArrayList<>();
+		private static List<Passenger> passengers=new ArrayList<>();
+		public static void main(String[] args) 
+		{
+			Scanner scanner=new Scanner(System.in);
+			flights.add(new Flight(1,"Chicago","Los Angeles",90));
+			flights.add(new Flight(2,"New York","san fransico",40));
+			flights.add(new Flight(3,"London","Houston",55));
+                        
+			while(true)
+			{
+				System.out.println("\n Airline Booking System Menu: ");
+				System.out.println("1.Display Available Flights");
+				System.out.println("2.Book a Flight");
+				System.out.println("3.Exit");
+				System.out.println("Enter your Choice");
+				int choice=scanner.nextInt();
+				switch(choice)
+				{
+				case 1:
+				   displayAvailableFlight();
+				   break;
+				case 2:
+					bookFlight(scanner);
+					break;
+					
+				case 3:
+					System.out.println("Exiting..");
+					scanner.close();
+					System.exit(0);
+					default:
+					System.out.println("Invalid choice.please try again.");	
+				}
+						
+				
+			}
+	}
+
+   
+
+	private static void displayAvailableFlight()
+     {
+    	System.out.println("\n Available Flights:");
+    	for(Flight flight: flights)
+    	{
+    		System.out.println("Flight" + flight.getFlightNumber()+ "-" + flight.getOrigin()
+    		                     + "to" + flight.getDestination()+ " (" +flight.getAvaialableSeats()+ "seats available)");
+    	}
+     }
+    	private static void bookFlight(Scanner scanner)
+    	{
+    		scanner.nextLine();
+    		System.out.print("Enter your name: ");
+    		String name=scanner.nextLine();  
+    		System.out.print("Enter your passport number: ");
+    		String passportNumber=scanner.nextLine();
+              displayAvailableFlight();
+              System.out.print("Enter the flight number you wnt to book: ");
+    		int flightNumber=scanner.nextInt();
+    		Flight selectedFlight=null;
+    		for (Flight flight : flights)
+    		{
+    			if(flight.getFlightNumber() == flightNumber)
+    					{
+    				selectedFlight = flight;
+    				break;
+    					}
+    		}
+    			if(selectedFlight!=null)
+    			{
+    				Passenger passenger=new Passenger(name, passportNumber);
+    				passengers.add(passenger);
+    				selectedFlight.bookSeat();
+    				System.out.println("Booking confirmed for" + passenger.getName() + "with passport number"+ passenger.getPassportNumber() +  "on Flight" + selectedFlight.getFlightNumber() +
+    						"from" + selectedFlight.getOrigin() +  "to"  + selectedFlight.getDestination());
+    			}
+    			else
+    			{
+    				System.out.println("Invalid flight number. Booking failed.");
+    			}
+    			
+
+    		}
+    		
+    		
+    	}
+     
+     
+
+
